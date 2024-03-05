@@ -11,6 +11,7 @@ set (TESTBED_SOURCE_FILES
 	test.cpp
 	test.h
 	tests/benchmark_boxes.cpp
+	tests/benchmark_pyramid.cpp
 	tests/add_pair.cpp
 	tests/apply_force.cpp
 	tests/body_types.cpp

@@ -63,7 +63,7 @@ public:
 	Test* test;
 };
 
-const int32 k_maxContactPoints = 2048;
+const int32 k_maxContactPoints = 16 * 2048;
 
 struct ContactPoint
 {

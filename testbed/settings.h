@@ -37,6 +37,7 @@ struct Settings
 		m_hertz = 60.0f;
 		m_velocityIterations = 8;
 		m_positionIterations = 3;
+		m_multiSteps = 1;
 		m_drawShapes = true;
 		m_drawJoints = true;
 		m_drawAABBs = false;
@@ -64,6 +65,7 @@ struct Settings
 	float m_hertz;
 	int m_velocityIterations;
 	int m_positionIterations;
+	int m_multiSteps;
 	bool m_drawShapes;
 	bool m_drawJoints;
 	bool m_drawAABBs;

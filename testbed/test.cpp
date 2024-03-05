@@ -323,7 +323,8 @@ void Test::Step(Settings& settings)
 		int32 bodyCount = m_world->GetBodyCount();
 		int32 contactCount = m_world->GetContactCount();
 		int32 jointCount = m_world->GetJointCount();
-		g_debugDraw.DrawString(5, m_textLine, "bodies/contacts/joints = %d/%d/%d", bodyCount, contactCount, jointCount);
+		int32 pointCount = m_world->m_contactPointCount;
+		g_debugDraw.DrawString(5, m_textLine, "bodies/contacts/joints/points = %d/%d/%d/%d", bodyCount, contactCount, jointCount, pointCount);
 		m_textLine += m_textIncrement;
 
 		int32 proxyCount = m_world->GetProxyCount();
@@ -405,7 +406,7 @@ void Test::Step(Settings& settings)
 
 	if (settings.m_drawContactPoints)
 	{
-		const float k_impulseScale = 0.1f;
+		const float k_impulseScale = 1.0f;
 		const float k_axisScale = 0.3f;
 
 		for (int32 i = 0; i < m_pointCount; ++i)

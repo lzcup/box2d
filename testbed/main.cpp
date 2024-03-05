@@ -365,7 +365,8 @@ static void UpdateUI()
 			{
 				ImGui::SliderInt("Vel Iters", &s_settings.m_velocityIterations, 0, 50);
 				ImGui::SliderInt("Pos Iters", &s_settings.m_positionIterations, 0, 50);
-				ImGui::SliderFloat("Hertz", &s_settings.m_hertz, 5.0f, 120.0f, "%.0f hz");
+				ImGui::SliderInt("Multi-Steps", &s_settings.m_multiSteps, 1, 50);
+				ImGui::SliderFloat("Hertz", &s_settings.m_hertz, 5.0f, 480.0f, "%.0f hz");
 				
 				ImGui::Separator();
 
@@ -586,7 +587,10 @@ int main(int, char**)
 			s_test->DrawTitle(buffer);
 		}
 
-		s_test->Step(s_settings);
+		for (int i = 0; i < s_settings.m_multiSteps; ++i)
+		{
+			s_test->Step(s_settings);
+		}
 
 		UpdateUI();
 

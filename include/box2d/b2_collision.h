@@ -269,13 +269,13 @@ struct b2Hull
 /// - less than 3 points
 /// - more than b2_maxPolygonVertices points
 /// This welds close points and removes collinear points.
-b2Hull b2ComputeHull(const b2Vec2* points, int32 count);
+B2_API b2Hull b2ComputeHull(const b2Vec2* points, int32 count);
 
 /// This determines if a hull is valid. Checks for:
 /// - convexity
 /// - collinear points
 /// This is expensive and should not be called at runtime.
-bool b2ValidateHull(const b2Hull& hull);
+B2_API bool b2ValidateHull(const b2Hull& hull);
 
 
 // ---------------- Inline Functions ------------------------------------------

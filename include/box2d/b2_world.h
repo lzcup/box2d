@@ -214,6 +214,8 @@ public:
 	/// @warning this should be called outside of a time step.
 	void Dump();
 
+	int32 m_contactPointCount = 0;
+
 private:
 
 	friend class b2Body;

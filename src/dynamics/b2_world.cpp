@@ -396,6 +396,7 @@ void b2World::Solve(const b2TimeStep& step)
 	m_profile.solveInit = 0.0f;
 	m_profile.solveVelocity = 0.0f;
 	m_profile.solvePosition = 0.0f;
+	m_contactPointCount = 0;
 
 	// Size the island for the worst case.
 	b2Island island(m_bodyCount,
@@ -490,6 +491,8 @@ void b2World::Solve(const b2TimeStep& step)
 				}
 
 				island.Add(contact);
+				m_contactPointCount += contact->m_manifold.pointCount;
+
 				contact->m_flags |= b2Contact::e_islandFlag;
 
 				b2Body* other = ce->other;

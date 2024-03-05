@@ -22,71 +22,55 @@
 
 #include "test.h"
 
-class Pyramid : public Test
+class BenchmarkPyramid : public Test
 {
 public:
-	enum
+BenchmarkPyramid()
+{
+	int baseCount = 10;
+	int stackCount = 182;
+	float extent = 0.5f;
+	float groundWidth = 2.0f * extent * stackCount * (baseCount + 1.0f);
+
 	{
-		e_count = 100
-	};
+		b2BodyDef bd;
+		b2Body* ground = m_world->CreateBody(&bd);
 
-	Pyramid()
+		b2EdgeShape shape;
+		shape.SetTwoSided(b2Vec2(-0.5f * groundWidth, 0.0f), b2Vec2(0.5f * groundWidth, 0.0f));
+		ground->CreateFixture(&shape, 0.0f);
+	}
+
+	b2PolygonShape shape;
+	shape.SetAsBox(extent, extent);
+	float baseWidth = 2.0f * extent * baseCount;
+
+	for (int32 k = 0; k < stackCount; ++k)
 	{
+		float centerX = -0.5f * groundWidth + k * (baseWidth + 2.0f * extent) + extent;
+
+		for (int32 i = 0; i < baseCount; ++i)
 		{
-			b2BodyDef bd;
-			b2Body* ground = m_world->CreateBody(&bd);
+			float y = (2.0f * i + 1.0f) * extent;
 
-			b2EdgeShape shape;
-			shape.SetTwoSided(b2Vec2(-80.0f, 0.0f), b2Vec2(80.0f, 0.0f));
-			ground->CreateFixture(&shape, 0.0f);
-		}
-
-		{
-			float a = 0.5f;
-			b2PolygonShape shape;
-			shape.SetAsBox(a, a);
-
-			b2Vec2 x(-35.0f, a);
-			b2Vec2 y;
-			b2Vec2 deltaX(0.5f, 2.0f * a);
-			b2Vec2 deltaY(2.0f * a, 0.0f);
-
-			for (int32 i = 0; i < e_count; ++i)
+			for (int32 j = i; j < baseCount; ++j)
 			{
-				y = x;
+				float x = (i + 1.0f) * extent + 2.0f * (j - i) * extent + centerX;
 
-				for (int32 j = i; j < e_count; ++j)
-				{
-					b2BodyDef bd;
-					bd.type = b2_dynamicBody;
-					bd.position = y;
-					b2Body* body = m_world->CreateBody(&bd);
-					body->CreateFixture(&shape, 5.0f);
-
-					y += deltaY;
-				}
-
-				x += deltaX;
+				b2BodyDef bd;
+				bd.type = b2_dynamicBody;
+				bd.position = { x, y };
+				b2Body* body = m_world->CreateBody(&bd);
+				body->CreateFixture(&shape, 5.0f);
 			}
 		}
 	}
-
-	void Step(Settings& settings) override
-	{
-		Test::Step(settings);
-
-		//b2DynamicTree* tree = &m_world->m_contactManager.m_broadPhase.m_tree;
-
-		//if (m_stepCount == 400)
-		//{
-		//	tree->RebuildBottomUp();
-		//}
-	}
+}
 
 	static Test* Create()
 	{
-		return new Pyramid;
+		return new BenchmarkPyramid;
 	}
 };
 
-static int testIndex = RegisterTest("Stacking", "Pyramid", Pyramid::Create);
+static int testIndex = RegisterTest("Benchmark", "Many Pyramids", BenchmarkPyramid::Create);
